@@ -1,8 +1,9 @@
-// Persoane.h
 #ifndef PERSOANE_H
 #define PERSOANE_H
 #include <stdlib.h>
-enum Status { sanatos, infectat, imun };
+#include <iostream>
+
+enum Status { sanatos, infectat, imun, carantinat };
 
 class Persoane
 {
@@ -29,19 +30,20 @@ public:
     }
 
     // Probabilitate de infectie
-    void probabilitate_infectare(float rata_infectare)
+    void probabilitate_infectare(float rata_infectare, int durata_infectare)
     {
         int probabilitate = rand() % 100;
         if (probabilitate < rata_infectare * 100)
         {
             this->setStare(infectat);
+            this->zile_infectat = durata_infectare; // Setam durata infectarii
         }
     }
 
     // Recuperare
     void Recuperare()
     {
-        if (stare == infectat)
+        if (stare == infectat || stare == carantinat)
         {
             if (zile_infectat == 0)
             {
@@ -49,7 +51,18 @@ public:
             }
             else
             {
-                zile_infectat--;
+                zile_infectat--; 
+            }
+        }
+    }
+
+    void Carantina()
+    {
+        if (stare == infectat)
+        {
+            if (rand() % 100 < 70) // 70% sansa de a fi carantinat
+            {
+                this->setStare(carantinat);
             }
         }
     }

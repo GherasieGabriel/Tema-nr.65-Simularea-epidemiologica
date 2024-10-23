@@ -16,20 +16,21 @@ Simulare::Simulare(int nr_persoane, int durata_infectare, float rata_infectare, 
 
 // Simularea epidemiei
 void Simulare::simulare_epidemie() {
-    for (auto& persoana : persoane) {
-        if (persoana.getStare() == sanatos) {
-            persoana.probabilitate_infectare(rata_infectare);
+    for (int i = 0; i < nr_persoane; i++) {
+        if (persoane[i].getStare() == sanatos) {
+            persoane[i].probabilitate_infectare(rata_infectare, durata_infectare);
         }
-        else if (persoana.getStare() == infectat) {
-            persoana.Recuperare();
+        else if (persoane[i].getStare() == infectat) {
+            persoane[i].Carantina();
         }
+        persoane[i].Recuperare();
     }
 }
 
 // Afisarea rezultatelor
 void  Simulare::afisare()
 {
-    int sanatosi = 0, infectati = 0, imuni = 0;
+    int sanatosi = 0, infectati = 0, imuni = 0,nr_carantinati=0;
     for (const auto& persoana : persoane)
     {
         if (persoana.getStare() == sanatos)
@@ -38,20 +39,23 @@ void  Simulare::afisare()
             infectati++;
         else if (persoana.getStare() == imun)
             imuni++;
+        else if (persoana.getStare() == carantinat)
+            nr_carantinati++;
     }
     if (infectati > nr_infectati)
     {
         
-            rata_infectare = rata_infectare + (infectati-nr_infectati)*0.02;
+            rata_infectare = rata_infectare + (infectati-nr_infectati)*0.01;
         nr_infectati = infectati;
     }
     else if (infectati < nr_infectati)
     {
-        rata_infectare = rata_infectare - (nr_infectati - infectati )*0.02;
+        rata_infectare = rata_infectare - (nr_infectati - infectati )*0.01;
 		nr_infectati = infectati;
     }
     cout << "Sanatosi: " << sanatosi << "\n";
     cout << "Infectati: " << infectati << "\n";
+	cout << "Carantinati: " << nr_carantinati << "\n";
     cout << "Imuni: " << imuni << "\n";
 }
 
