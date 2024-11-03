@@ -25,8 +25,10 @@ public:
     // Afisarea rezultatelor
     void afisare();
 
+    void desenare();
+
     // Destructor
     ~Simulare();
 };
 
-#endif // SIMULARE_H
+#endif // SIMULARE_H    

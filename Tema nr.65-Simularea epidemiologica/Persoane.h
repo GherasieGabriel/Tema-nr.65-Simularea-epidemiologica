@@ -51,7 +51,7 @@ public:
             }
             else
             {
-                zile_infectat--; 
+                zile_infectat--;
             }
         }
     }
@@ -60,7 +60,7 @@ public:
     {
         if (stare == infectat)
         {
-            if (rand() % 100 < 70) // 70% sansa de a fi carantinat
+			if (rand() % 100 < 70) // 70% sansa de a fi carantinat , ar putea fi pus ca si parametru in viitor
             {
                 this->setStare(carantinat);
             }

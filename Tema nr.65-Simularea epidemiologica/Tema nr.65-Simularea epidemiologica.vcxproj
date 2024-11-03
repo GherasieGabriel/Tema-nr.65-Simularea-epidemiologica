@@ -134,12 +134,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Meniu.cpp" />
     <ClCompile Include="Persoane.cpp" />
     <ClCompile Include="Simulare.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Meniu.h" />
     <ClInclude Include="Persoane.h" />
     <ClInclude Include="Simulare.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Meniu.png" />
+    <Image Include="Simplemap.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
