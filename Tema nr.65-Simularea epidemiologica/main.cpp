@@ -21,7 +21,7 @@ int main()
     cin >> r;
     cout << "Introduceti numarul de zile de simulare: ";
     cin >> z;
-    Imagine();
+	Imagine(); // Putem sa comentam ca sa rulam doar simularea
     Simulare sim(n, d, r, z); // crearea obiectului sim
 
     // Rularea simularii pentru numarul specificat de zile
