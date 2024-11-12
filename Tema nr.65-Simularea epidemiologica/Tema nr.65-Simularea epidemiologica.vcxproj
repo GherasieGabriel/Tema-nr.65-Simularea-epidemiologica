@@ -134,14 +134,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Meniu.cpp" />
-    <ClCompile Include="Persoane.cpp" />
-    <ClCompile Include="Simulare.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Person.cpp" />
+    <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="Status.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Meniu.h" />
-    <ClInclude Include="Persoane.h" />
-    <ClInclude Include="Simulare.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Person.h" />
+    <ClInclude Include="Simulation.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="arial.ttf" />
