@@ -1,35 +1,21 @@
 #include "Menu.h"
-#include "Simulation.h"
-#include <vector>
-
-std::vector<Individual> indivizi;  // Vector global pentru indivizi
-
-Individual::Individual(float raza, float x, float y) {
-    circle.setRadius(raza);
-    circle.setFillColor(Color::Green); // Culoarea initiala a individului
-    circle.setPosition(x, y); // Pozitia initiala a individului
-    speed.x = (rand() % 5) - 2; // Viteza pe axa X
-    speed.y = (rand() % 5) - 2; // Viteza pe axa Y
-}
-
-void Individual::miscare(RenderWindow& window) {
-    circle.move(speed); // Misca Individualul
-    if (circle.getPosition().x <= 0 || circle.getPosition().x + circle.getRadius() * 2 >= window.getSize().x) {
-        speed.x = -speed.x;  // Schimba directia pe axa X
-    }
-    if (circle.getPosition().y <= 0 || circle.getPosition().y + circle.getRadius() * 2 >= window.getSize().y) {
-        speed.y = -speed.y; // Schimba directia pe axa Y
-    }
-}
-
-void Individual::draw(RenderWindow& window) const {
-    window.draw(circle); // Deseneaza Individualul pe fereastra SFML
-}
-
-int Menu() {
+#include <thread>
+#include <iostream>
+using namespace std;
+int Main_menu() {
+    srand(time(0));
+    int n, d, z; // n=nr person, d=durata infectare, z=zile simulare
+    float r; // rata infectare
+    cout << "Introduceti numarul de persoane: ";
+    cin >> n;
+    cout << "Introduceti durata de infectare [zile]: ";
+    cin >> d;
+    cout << "Introduceti rata de infectare [valori de la 0 la 1 (ex. 0.05 = 5%)]: ";
+    cin >> r;
+    cout << "Introduceti numarul de zile de simulare: ";
+    cin >> z;
     RenderWindow window(VideoMode(1280, 720), "Meniu Principal", Style::Titlebar); // Fereastra meniului
-
-    // incarca imaginea de fundal
+	// Incarcare imagine de fundal
     Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("Meniu.png")) {
         std::cout << "Eroare la incarcarea imaginii de fundal" << std::endl;
@@ -42,14 +28,14 @@ int Menu() {
         window.getSize().y / backgroundSprite.getLocalBounds().height
     );
 
-    // incarca fontul pentru text
+	// Incarcare font
     Font font;
     if (!font.loadFromFile("arial.ttf")) {
         std::cout << "Eroare la incarcarea fontului" << std::endl;
         return -1;
     }
 
-    // Creaza butonul "Play"
+	// Creare buton "Play"
     RectangleShape playButton(Vector2f(300.f, 100.f));
     playButton.setPosition(490.f, 300.f);
     playButton.setFillColor(Color::Black);
@@ -66,7 +52,7 @@ int Menu() {
         playButton.getPosition().y + playButton.getSize().y / 2 - playText.getGlobalBounds().height / 2
     );
 
-    // Creaza butonul "Exit"
+	// Creare buton "Exit"
     RectangleShape exitButton(Vector2f(300.f, 100.f));
     exitButton.setPosition(490.f, 450.f);
     exitButton.setFillColor(Color::Transparent);
@@ -87,13 +73,13 @@ int Menu() {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
-                window.close(); // inchide fereastra daca utilizatorul apasa pe "X"
+				window.close(); // Inchide fereastra daca utilizatorul apasa pe "X"
 
             Vector2i mousePos = Mouse::getPosition(window);
             if (playButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                playButton.setFillColor(Color(100, 100, 100)); // Schimba culoarea butonului
+				playButton.setFillColor(Color(100, 100, 100)); // Schimba culoarea butonului la hover
                 if (Mouse::isButtonPressed(Mouse::Left)) {
-                    Draw(); // Deschide simularea
+                    Draw(n,d,r,z); // Deseneaza simularea
                 }
             }
             else {
@@ -103,7 +89,7 @@ int Menu() {
             if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 exitButton.setFillColor(Color(100, 100, 100));
                 if (Mouse::isButtonPressed(Mouse::Left)) {
-                    window.close(); // inchide aplicatia
+					window.close(); // Inchide fereastra
                 }
             }
             else {
@@ -112,37 +98,35 @@ int Menu() {
         }
 
         window.clear();
-        window.draw(backgroundSprite); // Deseneaza fundalul
-        window.draw(playButton); // Deseneaza butonul "Play"
-        window.draw(exitButton); // Deseneaza butonul "Exit"
-        window.draw(playText); // Deseneaza textul de pe butonul "Play"
-        window.draw(exitText); // Deseneaza textul de pe butonul "Exit"
-        window.display(); // Actualizeaza fereastra
+		window.draw(backgroundSprite); // Deseneaza fundalul
+		window.draw(playButton); // Deseneaza butonul "Play"
+		window.draw(exitButton); // Deseneaza butonul "Exit"
+		window.draw(playText); // Deseneaza textul de pe butonul "Play"
+		window.draw(exitText); // Deseneaza textul de pe butonul "Exit"
+		window.display(); // Actualizeaza fereastra
     }
 
-    return 0; // inchide meniul
+	return 0; // Inchide aplicatia
 }
 
-void Draw() 
+void Draw(int n, int d, float r, int z)
 {
-    RenderWindow window(VideoMode(1280, 720), "Simulare Epidemiologica", Style::Fullscreen);
+    Simulation sim(n, d, r, z); // crearea obiectului sim
 
-    // Initializare indivizi
-    for (int i = 0; i < 100; ++i) {
-        float x = rand() % (int)(window.getSize().x - 20) + 10; // Pozitia X
-        float y = rand() % (int)(window.getSize().y - 20) + 10; // Pozitia Y
-        indivizi.emplace_back(10.f, x, y); // Adauga indivizi
+    // Rularea simularii pentru numarul specificat de zile
+    int initial_Infected = n * 0.01; // 1% din populatie Infecteda initial
+    for (int i = 0; i < initial_Infected; i++) { // infectare initiala
+        int first_Infected = rand() % n;
+        sim.getPerson(first_Infected).setState(Infected);
+        sim.getPerson(first_Infected).setDaysInfected(d);
     }
-
+    RenderWindow window(VideoMode(1280, 720), "Simulare Epidemiologica", Style::Fullscreen);
     Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("Simplemap.png")) {
+    if (!backgroundTexture.loadFromFile("Simplemap.png"))
+    {
         std::cout << "Eroare la incarcarea imaginii de fundal" << std::endl;
     }
 
-    Font font;
-    if (!font.loadFromFile("arial.ttf")) {
-        std::cout << "Eroare la incarcarea fontului" << std::endl;
-    }
 
     Sprite backgroundSprite;
     backgroundSprite.setTexture(backgroundTexture);
@@ -151,50 +135,97 @@ void Draw()
         window.getSize().y / backgroundSprite.getLocalBounds().height
     );
 
-    // Butonul de Exit
+
     RectangleShape exitButton(Vector2f(150.f, 50.f));
-    exitButton.setPosition(900.f, 600.f);
+    exitButton.setPosition(1120.f, 640.f);
     exitButton.setFillColor(Color::Transparent);
-    exitButton.setOutlineThickness(10.f);
+    exitButton.setOutlineThickness(5.f);
     exitButton.setOutlineColor(Color::White);
+
+    Font font;
+    if (!font.loadFromFile("arial.ttf")) {
+        std::cout << "Eroare la incarcarea fontului" << std::endl;
+    }
 
     Text exitText;
     exitText.setFont(font);
     exitText.setString("Exit");
-    exitText.setCharacterSize(40);
+    exitText.setCharacterSize(30);
     exitText.setFillColor(Color::Red);
     exitText.setPosition(
         exitButton.getPosition().x + exitButton.getSize().x / 2 - exitText.getGlobalBounds().width / 2,
         exitButton.getPosition().y + exitButton.getSize().y / 2 - exitText.getGlobalBounds().height / 2
     );
+    bool initialization=true;
+    const std::chrono::seconds interval(2);
+        auto start_time = std::chrono::steady_clock::now();
+        int finish_simulation = 1;
+        while (window.isOpen() && finish_simulation != sim.getSimulation_days()) {
+            Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == Event::Closed)
+                    window.close();
 
-    while (window.isOpen()) {
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close(); // Inchide fereastra daca utilizatorul apasa pe "X"
-        }
-
-        // Miscarea fiecarui Individual
-        for (auto& Individual : indivizi) {
-            Individual.miscare(window);
-        }
-        Vector2i mousePos = Mouse::getPosition(window);
-        if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-            exitButton.setFillColor(Color(100, 100, 100));
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                window.close(); // inchide aplicatia
+                Vector2i mousePos = Mouse::getPosition(window);
+                if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    exitButton.setFillColor(Color(100, 100, 100));
+                    if (Mouse::isButtonPressed(Mouse::Left)) {
+                        window.close();
+                    }
+                }
+                else {
+                    exitButton.setFillColor(Color::Transparent);
+                }
             }
-        window.clear();
-        window.draw(backgroundSprite); // Deseneaza fundalul
-        // Deseneaza fiecare Individual
-        for (const auto& Individual : indivizi) {
-            Individual.draw(window);
-        }
+            if (initialization==true)
+            {
+                for (int i = 0; i < sim.getPeople(); ++i)
+                {
+                    Person& person = sim.getPerson(i);
+                    CircleShape circle(10.f);
+                    circle.setPosition(
+                        rand() % (window.getSize().x - 20),
+                        rand() % (window.getSize().y - 20)
+                    );
+                }
+				initialization = false;
+            }
+            window.clear();
+            window.draw(backgroundSprite);
+            // Draw people
+            for (int i = 0; i < sim.getPeople(); ++i) {
+                Movement();
+                switch (person.GetState()) {
+                case Healthy:
+                    circle.setFillColor(Color::Green);
+                    break;
+                case Infected:
+                    circle.setFillColor(Color::Red);
+                    break;
+                case Imune:
+                    circle.setFillColor(Color::Blue);
+                    break;
+                case Quarantined:
+                    circle.setFillColor(Color::Yellow);
+                    break;
+                }
 
-        window.draw(exitButton); // Deseneaza butonul de exit
-        window.draw(exitText); // Deseneaza textul de pe butonul de exit
-        window.display(); // Actualizeaza fereastra
-    }
-	}
+                window.draw(circle);
+
+            }
+            auto current_time = std::chrono::steady_clock::now();
+            if (current_time - start_time > interval) {
+                cout << "Ziua: " << finish_simulation << endl;
+                start_time = current_time;
+                sim.Pandemic_Simulation();
+                sim.print();
+                finish_simulation++;
+            }
+
+            window.draw(exitButton);
+            window.draw(exitText);
+
+            window.display();
+
+        }
 }

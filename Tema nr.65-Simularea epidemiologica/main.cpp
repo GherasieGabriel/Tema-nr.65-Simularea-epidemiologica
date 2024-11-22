@@ -1,10 +1,6 @@
-#pragma warning (disable:4996)
-#include "Simulation.h"
-#include "Person.h"
+#include "Movement.h"
+void Begin_Simulation();
 using namespace std;
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "Menu.h"
 int main()
 {
 	Begin_Simulation();

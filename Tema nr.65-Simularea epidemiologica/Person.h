@@ -1,14 +1,12 @@
 #ifndef PERSON_H
 #define PERSON_H
-#include <stdlib.h>
-#include <iostream>
 #include "Status.h"
 class Person
 {
-public:
+private :
     int days_Infected; // Numarul de zile pana cand persoana devine Imunea
     Status State;
-
+public:
     // Constructor fara parametrii
     Person() : State(Healthy) {}
 
@@ -28,7 +26,9 @@ public:
 
    void Quarantine();// Functie pentru a pune personle Infectede in Quarantine
     
+   int getdays_infected(int days_infected);// Functie pentru a obtine numarul de zile infectate
 
+   void setDaysInfected(int days_infected);// Functie pentru a seta numarul de zile infectate
     // Destructor
     ~Person();
 };

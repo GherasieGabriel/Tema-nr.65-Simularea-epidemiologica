@@ -1,7 +1,6 @@
 #include "Person.h"
 #include <cstdlib>
 #include <ctime>
-#include "Status.h"
 
 // Constructor
 Person::Person(int nr_people, int infection_duration)
@@ -60,6 +59,16 @@ void Person::Quarantine()
             this->setState(Status::Quarantined);
         }
     }
+}
+
+int Person::getdays_infected(int days_infected)
+{
+	return days_infected;
+}
+
+void Person::setDaysInfected(int days_infected)
+{
+	this->days_Infected = days_infected;
 }
 
 // Destructor
