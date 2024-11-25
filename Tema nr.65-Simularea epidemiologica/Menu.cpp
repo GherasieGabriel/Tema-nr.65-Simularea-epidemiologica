@@ -177,7 +177,7 @@ void Draw(int n, int d, float r, int z)
                     exitButton.setFillColor(Color::Transparent);
                 }
             }
-            if (initialization==true)
+            /*if (initialization == true)
             {
                 for (int i = 0; i < sim.getPeople(); ++i)
                 {
@@ -187,14 +187,23 @@ void Draw(int n, int d, float r, int z)
                         rand() % (window.getSize().x - 20),
                         rand() % (window.getSize().y - 20)
                     );
+                    //speed.x = (rand() % 5) - 2;
+                    //speed.y = (rand() % 5) - 2;
+
                 }
-				initialization = false;
+                initialization = false;
             }
+            */
             window.clear();
             window.draw(backgroundSprite);
             // Draw people
             for (int i = 0; i < sim.getPeople(); ++i) {
-                Movement();
+                Person& person = sim.getPerson(i);
+                CircleShape circle(10.f);
+                circle.setPosition(
+                    rand() % (window.getSize().x - 20),
+                    rand() % (window.getSize().y - 20)
+                );
                 switch (person.GetState()) {
                 case Healthy:
                     circle.setFillColor(Color::Green);

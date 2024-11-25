@@ -1,15 +1,15 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
-
 #include <SFML/Graphics.hpp>
-
+using namespace sf;
 class Movement {
 private:
 	sf::CircleShape circle;  // Aparenta individului
 	sf::Vector2f speed;      // Viteza individului
 
 public:
-	Movement(); // Constructor de initializare
+	Movement(); // Constructor implicit
+	Movement(sf::CircleShape circle); // Constructor de initializare
 
 	void miscare(sf::RenderWindow& window); // Miscarea individului
 

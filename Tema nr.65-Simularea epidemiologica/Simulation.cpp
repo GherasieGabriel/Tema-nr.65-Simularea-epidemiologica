@@ -1,9 +1,5 @@
 #include "Simulation.h"
-#include "Menu.h"
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include <ctime>
+
 using namespace std;
 int previously_infected;
 void Begin_Simulation()

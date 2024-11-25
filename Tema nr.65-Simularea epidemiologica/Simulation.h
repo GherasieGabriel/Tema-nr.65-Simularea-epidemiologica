@@ -1,9 +1,14 @@
 // Simulare.h
 #ifndef SIMULATION_H
 #define SIMULATION_H
-
 #include "Person.h"
+#include "Menu.h"
 #include <vector>
+#include <iostream>
+#include <chrono>
+#include <thread>
+#include <ctime>
+
 
 class Simulation
 {

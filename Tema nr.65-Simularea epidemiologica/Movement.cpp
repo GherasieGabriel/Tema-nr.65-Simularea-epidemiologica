@@ -1,5 +1,5 @@
 #include "Movement.h"
-#include "Simulation.h"
+
 
 sf::Vector2f Movement::getSpeed() const {
     return speed;
@@ -24,10 +24,10 @@ sf::Vector2f Movement::getPosition() const {
 void Movement::setPosition(const sf::Vector2f& position) {
     circle.setPosition(position);
 }
-Movement::Movement() {
-	circle.setRadius(10.f);
-	circle.setFillColor(sf::Color::Green);
-	circle.setPosition(0.f, 0.f);
-	speed.x = (rand() % 5)-2;
-	speed.y = (rand() % 5)-2;
-}
+
+Movement::Movement(sf::CircleShape circle) : circle(circle) 
+    {
+        speed.x = (rand() % 5) - 2;
+        speed.y = (rand() % 5) - 2;
+    }
+	

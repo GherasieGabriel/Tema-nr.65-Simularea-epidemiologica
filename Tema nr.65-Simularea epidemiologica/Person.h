@@ -1,6 +1,8 @@
 #ifndef PERSON_H
 #define PERSON_H
 #include "Status.h"
+#include <cstdlib>
+#include <ctime>
 class Person
 {
 private :

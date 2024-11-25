@@ -1,6 +1,5 @@
 #include "Person.h"
-#include <cstdlib>
-#include <ctime>
+
 
 // Constructor
 Person::Person(int nr_people, int infection_duration)
