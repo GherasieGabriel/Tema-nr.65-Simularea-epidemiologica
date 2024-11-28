@@ -1,6 +1,5 @@
 #include "Menu.h"
-#include <thread>
-#include <iostream>
+
 using namespace std;
 int Main_menu() {
     srand(time(0));
@@ -111,22 +110,20 @@ int Main_menu() {
 
 void Draw(int n, int d, float r, int z)
 {
-    Simulation sim(n, d, r, z); // crearea obiectului sim
-
-    // Rularea simularii pentru numarul specificat de zile
-    int initial_Infected = n * 0.01; // 1% din populatie Infecteda initial
-    for (int i = 0; i < initial_Infected; i++) { // infectare initiala
+    Simulation sim(n, d, r, z);
+    // Configurarea initiala a infectiei
+    int initial_Infected = n * 0.01; // 1% din populatie este initial infectata
+    for (int i = 0; i < initial_Infected; i++) {
         int first_Infected = rand() % n;
         sim.getPerson(first_Infected).setState(Infected);
         sim.getPerson(first_Infected).setDaysInfected(d);
     }
+
     RenderWindow window(VideoMode(1280, 720), "Simulare Epidemiologica", Style::Fullscreen);
     Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("Simplemap.png"))
-    {
+    if (!backgroundTexture.loadFromFile("Simplemap.png")) {
         std::cout << "Eroare la incarcarea imaginii de fundal" << std::endl;
     }
-
 
     Sprite backgroundSprite;
     backgroundSprite.setTexture(backgroundTexture);
@@ -134,7 +131,6 @@ void Draw(int n, int d, float r, int z)
         window.getSize().x / backgroundSprite.getLocalBounds().width,
         window.getSize().y / backgroundSprite.getLocalBounds().height
     );
-
 
     RectangleShape exitButton(Vector2f(150.f, 50.f));
     exitButton.setPosition(1120.f, 640.f);
@@ -156,85 +152,75 @@ void Draw(int n, int d, float r, int z)
         exitButton.getPosition().x + exitButton.getSize().x / 2 - exitText.getGlobalBounds().width / 2,
         exitButton.getPosition().y + exitButton.getSize().y / 2 - exitText.getGlobalBounds().height / 2
     );
-    bool initialization=true;
-    const std::chrono::seconds interval(2);
-        auto start_time = std::chrono::steady_clock::now();
-        int finish_simulation = 1;
-        while (window.isOpen() && finish_simulation != sim.getSimulation_days()) {
-            Event event;
-            while (window.pollEvent(event)) {
-                if (event.type == Event::Closed)
+
+    // Vector pentru a stoca pozitiile cercurilor
+    vector<Vector2f> circlePositions(n);
+    bool initialization = true;
+    const std::chrono::seconds interval(1);
+    auto start_time = std::chrono::steady_clock::now();
+    int finish_simulation = 1;
+    for (int i = 0; i < n; ++i) {
+        circlePositions[i] = Vector2f(rand() % (window.getSize().x - 20), rand() % (window.getSize().y - 20));
+    }
+
+    while (window.isOpen() && finish_simulation != sim.getSimulation_days()) {
+        Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed)
+                window.close();
+
+            Vector2i mousePos = Mouse::getPosition(window);
+            if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                exitButton.setFillColor(Color(100, 100, 100));
+                if (Mouse::isButtonPressed(Mouse::Left)) {
                     window.close();
-
-                Vector2i mousePos = Mouse::getPosition(window);
-                if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    exitButton.setFillColor(Color(100, 100, 100));
-                    if (Mouse::isButtonPressed(Mouse::Left)) {
-                        window.close();
-                    }
-                }
-                else {
-                    exitButton.setFillColor(Color::Transparent);
                 }
             }
-            /*if (initialization == true)
-            {
-                for (int i = 0; i < sim.getPeople(); ++i)
-                {
-                    Person& person = sim.getPerson(i);
-                    CircleShape circle(10.f);
-                    circle.setPosition(
-                        rand() % (window.getSize().x - 20),
-                        rand() % (window.getSize().y - 20)
-                    );
-                    //speed.x = (rand() % 5) - 2;
-                    //speed.y = (rand() % 5) - 2;
-
-                }
-                initialization = false;
+            else {
+                exitButton.setFillColor(Color::Transparent);
             }
-            */
-            window.clear();
-            window.draw(backgroundSprite);
-            // Draw people
-            for (int i = 0; i < sim.getPeople(); ++i) {
-                Person& person = sim.getPerson(i);
-                CircleShape circle(10.f);
-                circle.setPosition(
-                    rand() % (window.getSize().x - 20),
-                    rand() % (window.getSize().y - 20)
-                );
-                switch (person.GetState()) {
-                case Healthy:
-                    circle.setFillColor(Color::Green);
-                    break;
-                case Infected:
-                    circle.setFillColor(Color::Red);
-                    break;
-                case Imune:
-                    circle.setFillColor(Color::Blue);
-                    break;
-                case Quarantined:
-                    circle.setFillColor(Color::Yellow);
-                    break;
-                }
-
-                window.draw(circle);
-
-            }
-            auto current_time = std::chrono::steady_clock::now();
-            if (current_time - start_time > interval) {
-                cout << "Ziua: " << finish_simulation << endl;
-                start_time = current_time;
-                sim.Pandemic_Simulation();
-                sim.print();
-                finish_simulation++;
-            }
-
-            window.draw(exitButton);
-            window.draw(exitText);
-
-            window.display();
-
         }
+
+        // Calculam dimensiunea cercului în functie de numarul de persoane
+        float circleSize = std::max(5.f, 100.f / n); // Dimensiune minima de 5 pentru cerc
+
+        // Desenam fundalul o singura data pe cadru
+        window.clear(); // Curatam fereastra
+        window.draw(backgroundSprite); // Desenam fundalul
+
+        for (int i = 0; i < sim.getPeople(); ++i) {
+            Person& person = sim.getPerson(i);
+            CircleShape circle(circleSize); // Folosim circleSize pentru dimensiunea cercului
+            circle.setPosition(circlePositions[i]);
+
+            // Setam culoarea cercului în functie de starea persoanei
+            switch (person.GetState()) {
+            case Healthy:
+                circle.setFillColor(Color::Green);
+                break;
+            case Infected:
+                circle.setFillColor(Color::Red);
+                break;
+            case Imune:
+                circle.setFillColor(Color::Blue);
+                break;
+            case Quarantined:
+                circle.setFillColor(Color::Yellow);
+            }
+            window.draw(circle); // Desenam cercul
+        }
+
+        auto current_time = std::chrono::steady_clock::now();
+        if (current_time - start_time > interval) {
+            std::cout << "Ziua: " << finish_simulation << std::endl;
+            start_time = current_time;
+            sim.Pandemic_Simulation();
+            sim.print();
+            finish_simulation++;
+        }
+
+        window.draw(exitButton); // Desenam butonul de iesire
+        window.draw(exitText); // Desenam textul de iesire
+        window.display(); // Afisam totul pe fereastra
+    }
 }

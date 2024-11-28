@@ -1,6 +1,4 @@
 #include "Person.h"
-
-
 // Constructor
 Person::Person(int nr_people, int infection_duration)
 {

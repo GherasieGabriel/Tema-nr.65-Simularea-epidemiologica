@@ -1,8 +1,9 @@
 #ifndef MENU_H
 #define MENU_H
 #include "Simulation.h"
-#include "Movement.h"
 #include <SFML/Graphics.hpp>
+#include <thread>
+#include <iostream>
 using namespace sf;
 
 // Function declarations

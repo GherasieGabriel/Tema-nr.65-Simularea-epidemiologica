@@ -11,7 +11,6 @@ public:
 	Movement(); // Constructor implicit
 	Movement(sf::CircleShape circle); // Constructor de initializare
 
-	void miscare(sf::RenderWindow& window); // Miscarea individului
 
 	sf::Vector2f getSpeed() const; // Getter pentru viteza
 	void setSpeed(const sf::Vector2f& newSpeed); // Setter pentru viteza
