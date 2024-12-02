@@ -1,6 +1,4 @@
-#include "Menu.h"
-void Begin_Simulation();
-using namespace std;
+#include "Pandemic.h"
 int main()
 {
 	Begin_Simulation();

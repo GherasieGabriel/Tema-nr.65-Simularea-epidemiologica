@@ -24,10 +24,22 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Status.h">
+    <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="Status.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PandemicView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PandemicController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PandemicModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pandemic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

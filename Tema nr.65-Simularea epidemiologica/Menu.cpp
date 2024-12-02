@@ -1,18 +1,9 @@
 #include "Menu.h"
 
 using namespace std;
-int Main_menu() {
+int Main_Menu(int n,int d,float r,int z) {
     srand(time(0));
-    int n, d, z; // n=nr person, d=durata infectare, z=zile simulare
-    float r; // rata infectare
-    cout << "Introduceti numarul de persoane: ";
-    cin >> n;
-    cout << "Introduceti durata de infectare [zile]: ";
-    cin >> d;
-    cout << "Introduceti rata de infectare [valori de la 0 la 1 (ex. 0.05 = 5%)]: ";
-    cin >> r;
-    cout << "Introduceti numarul de zile de simulare: ";
-    cin >> z;
+    
     RenderWindow window(VideoMode(1280, 720), "Meniu Principal", Style::Titlebar); // Fereastra meniului
 	// Incarcare imagine de fundal
     Texture backgroundTexture;
@@ -106,121 +97,4 @@ int Main_menu() {
     }
 
 	return 0; // Inchide aplicatia
-}
-
-void Draw(int n, int d, float r, int z)
-{
-    Simulation sim(n, d, r, z);
-    // Configurarea initiala a infectiei
-    int initial_Infected = n * 0.01; // 1% din populatie este initial infectata
-    for (int i = 0; i < initial_Infected; i++) {
-        int first_Infected = rand() % n;
-        sim.getPerson(first_Infected).setState(Infected);
-        sim.getPerson(first_Infected).setDaysInfected(d);
-    }
-
-    RenderWindow window(VideoMode(1280, 720), "Simulare Epidemiologica", Style::Fullscreen);
-    Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("Simplemap.png")) {
-        std::cout << "Eroare la incarcarea imaginii de fundal" << std::endl;
-    }
-
-    Sprite backgroundSprite;
-    backgroundSprite.setTexture(backgroundTexture);
-    backgroundSprite.setScale(
-        window.getSize().x / backgroundSprite.getLocalBounds().width,
-        window.getSize().y / backgroundSprite.getLocalBounds().height
-    );
-
-    RectangleShape exitButton(Vector2f(150.f, 50.f));
-    exitButton.setPosition(1120.f, 640.f);
-    exitButton.setFillColor(Color::Transparent);
-    exitButton.setOutlineThickness(5.f);
-    exitButton.setOutlineColor(Color::White);
-
-    Font font;
-    if (!font.loadFromFile("arial.ttf")) {
-        std::cout << "Eroare la incarcarea fontului" << std::endl;
-    }
-
-    Text exitText;
-    exitText.setFont(font);
-    exitText.setString("Exit");
-    exitText.setCharacterSize(30);
-    exitText.setFillColor(Color::Red);
-    exitText.setPosition(
-        exitButton.getPosition().x + exitButton.getSize().x / 2 - exitText.getGlobalBounds().width / 2,
-        exitButton.getPosition().y + exitButton.getSize().y / 2 - exitText.getGlobalBounds().height / 2
-    );
-
-    // Vector pentru a stoca pozitiile cercurilor
-    vector<Vector2f> circlePositions(n);
-    bool initialization = true;
-    const std::chrono::seconds interval(1);
-    auto start_time = std::chrono::steady_clock::now();
-    int finish_simulation = 1;
-    for (int i = 0; i < n; ++i) {
-        circlePositions[i] = Vector2f(rand() % (window.getSize().x - 20), rand() % (window.getSize().y - 20));
-    }
-
-    while (window.isOpen() && finish_simulation != sim.getSimulation_days()) {
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close();
-
-            Vector2i mousePos = Mouse::getPosition(window);
-            if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                exitButton.setFillColor(Color(100, 100, 100));
-                if (Mouse::isButtonPressed(Mouse::Left)) {
-                    window.close();
-                }
-            }
-            else {
-                exitButton.setFillColor(Color::Transparent);
-            }
-        }
-
-        // Calculam dimensiunea cercului în functie de numarul de persoane
-        float circleSize = std::max(5.f, 100.f / n); // Dimensiune minima de 5 pentru cerc
-
-        // Desenam fundalul o singura data pe cadru
-        window.clear(); // Curatam fereastra
-        window.draw(backgroundSprite); // Desenam fundalul
-
-        for (int i = 0; i < sim.getPeople(); ++i) {
-            Person& person = sim.getPerson(i);
-            CircleShape circle(circleSize); // Folosim circleSize pentru dimensiunea cercului
-            circle.setPosition(circlePositions[i]);
-
-            // Setam culoarea cercului în functie de starea persoanei
-            switch (person.GetState()) {
-            case Healthy:
-                circle.setFillColor(Color::Green);
-                break;
-            case Infected:
-                circle.setFillColor(Color::Red);
-                break;
-            case Imune:
-                circle.setFillColor(Color::Blue);
-                break;
-            case Quarantined:
-                circle.setFillColor(Color::Yellow);
-            }
-            window.draw(circle); // Desenam cercul
-        }
-
-        auto current_time = std::chrono::steady_clock::now();
-        if (current_time - start_time > interval) {
-            std::cout << "Ziua: " << finish_simulation << std::endl;
-            start_time = current_time;
-            sim.Pandemic_Simulation();
-            sim.print();
-            finish_simulation++;
-        }
-
-        window.draw(exitButton); // Desenam butonul de iesire
-        window.draw(exitText); // Desenam textul de iesire
-        window.display(); // Afisam totul pe fereastra
-    }
 }

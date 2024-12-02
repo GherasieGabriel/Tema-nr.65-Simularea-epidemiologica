@@ -133,14 +133,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PandemicController.cpp" />
+    <ClCompile Include="PandemicModel.cpp" />
+    <ClCompile Include="PandemicView.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Status.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Pandemic.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Simulation.h" />
   </ItemGroup>

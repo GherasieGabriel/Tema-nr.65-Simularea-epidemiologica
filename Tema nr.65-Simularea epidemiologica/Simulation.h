@@ -2,14 +2,11 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 #include "Person.h"
-#include "Menu.h"
 #include <vector>
 #include <iostream>
 #include <chrono>
 #include <thread>
 #include <ctime>
-
-
 class Simulation
 {
 private:
@@ -43,8 +40,6 @@ public:
     int getSimulation_days();
 
 	int getPerson();
-
-	void Initializer(int nr_people, int infection_duration, float infection_rate, int simulation_days);
 
     Person& getPerson(int index);
 
