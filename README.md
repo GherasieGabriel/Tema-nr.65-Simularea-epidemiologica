@@ -45,9 +45,9 @@ PandemicView.h / PandemicView.cpp: Gestionează afișarea simulării (atât text
 
 PandemicController.h / PandemicController.cpp: Gestionează interacțiunea cu utilizatorul și controlul simulării.
 
-PandemicViewText.cpp Rendarea text a simulării
+PandemicViewText.cpp: Rendarea text a simulării
 
-PandemicViewGraphical Rendarea grafică a simulării folosind SFML
+PandemicViewGraphical.cpp: Rendarea grafică a simulării folosind SFML
 
 PandemicViewHelper.h / PandemicViewHelper.cpp: Ajută la randarea elementelor grafice (bare de stare, butoane etc.).
 
