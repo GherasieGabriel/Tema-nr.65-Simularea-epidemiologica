@@ -58,7 +58,7 @@ void Person::Quarantine(float quarantine_ratio)
     }
 }
 
-int Person::getdays_infected(int days_infected)
+int Person::getdays_infected(int days_infected) const
 {
 	return days_infected;
 }

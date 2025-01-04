@@ -28,7 +28,7 @@ public:
 
 	void Quarantine(float quarantine_ratio);// Function to apply quarantine if infected
     
-	int getdays_infected(int days_infected);// Function to get the number of days infected
+	int getdays_infected(int days_infected) const;// Function to get the number of days infected
 
 	void setDaysInfected(int days_infected);// Function to set the number of days infected
     // Destructor
