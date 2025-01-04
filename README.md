@@ -31,7 +31,7 @@ Apoi,alege între afișarea textuală (t) sau grafică (g) a simulării.
 ### Cerințe preliminare
 
 - **Compiler C++**: Asigură-te că ai un compiler C++ instalat (de exemplu, `g++` sau `clang`).
-- **SFML**: Proiectul folosește biblioteca SFML pentru randarea grafică. Asigură-te că ai instalat SFML pe sistemul tău.( In proiect in acest caz)
+- **SFML**: Proiectul folosește biblioteca SFML pentru randarea grafică. Asigură-te că ai instalat SFML pe sistemul tău.( În proiect în acest caz)
 ## Structura proiectului
 main.cpp: Punctul de intrare al programului.
 
