@@ -1,16 +1,17 @@
-#include "Menu.h"
+#include "PandemicController.h"
+#include <iostream>
 
-using namespace std;
-int Main_Menu(int n,int d,float r,int z) {
-    srand(time(0));
-    
-    RenderWindow window(VideoMode(1280, 720), "Meniu Principal", Style::Titlebar); // Fereastra meniului
-	// Incarcare imagine de fundal
+using namespace sf;
+
+int Main_Menu() {
+    RenderWindow window(VideoMode(1280, 720), "Meniu Principal", Style::Titlebar);
+
     Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("Meniu.png")) {
-        std::cout << "Eroare la incarcarea imaginii de fundal" << std::endl;
+        std::cerr << "Eroare la incarcarea imaginii de fundal\n";
         return -1;
     }
+
     Sprite backgroundSprite;
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(
@@ -18,14 +19,12 @@ int Main_Menu(int n,int d,float r,int z) {
         window.getSize().y / backgroundSprite.getLocalBounds().height
     );
 
-	// Incarcare font
     Font font;
     if (!font.loadFromFile("arial.ttf")) {
-        std::cout << "Eroare la incarcarea fontului" << std::endl;
+        std::cerr << "Eroare la incarcarea fontului\n";
         return -1;
     }
 
-	// Creare buton "Play"
     RectangleShape playButton(Vector2f(300.f, 100.f));
     playButton.setPosition(490.f, 300.f);
     playButton.setFillColor(Color::Black);
@@ -42,7 +41,6 @@ int Main_Menu(int n,int d,float r,int z) {
         playButton.getPosition().y + playButton.getSize().y / 2 - playText.getGlobalBounds().height / 2
     );
 
-	// Creare buton "Exit"
     RectangleShape exitButton(Vector2f(300.f, 100.f));
     exitButton.setPosition(490.f, 450.f);
     exitButton.setFillColor(Color::Transparent);
@@ -63,13 +61,14 @@ int Main_Menu(int n,int d,float r,int z) {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
-				window.close(); // Inchide fereastra daca utilizatorul apasa pe "X"
+                window.close();
 
             Vector2i mousePos = Mouse::getPosition(window);
             if (playButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-				playButton.setFillColor(Color(100, 100, 100)); // Schimba culoarea butonului la hover
+                playButton.setFillColor(Color(100, 100, 100));
                 if (Mouse::isButtonPressed(Mouse::Left)) {
-                    Draw(n,d,r,z); // Deseneaza simularea
+                    PandemicController controller;
+                    controller.runSimulation();
                 }
             }
             else {
@@ -79,22 +78,22 @@ int Main_Menu(int n,int d,float r,int z) {
             if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 exitButton.setFillColor(Color(100, 100, 100));
                 if (Mouse::isButtonPressed(Mouse::Left)) {
-					window.close(); // Inchide fereastra
+                    window.close();
                 }
             }
             else {
-                exitButton.setFillColor(Color::Black);
+                exitButton.setFillColor(Color::Transparent);
             }
         }
 
         window.clear();
-		window.draw(backgroundSprite); // Deseneaza fundalul
-		window.draw(playButton); // Deseneaza butonul "Play"
-		window.draw(exitButton); // Deseneaza butonul "Exit"
-		window.draw(playText); // Deseneaza textul de pe butonul "Play"
-		window.draw(exitText); // Deseneaza textul de pe butonul "Exit"
-		window.display(); // Actualizeaza fereastra
+        window.draw(backgroundSprite);
+        window.draw(playButton);
+        window.draw(exitButton);
+        window.draw(playText);
+        window.draw(exitText);
+        window.display();
     }
 
-	return 0; // Inchide aplicatia
+    return 0;
 }

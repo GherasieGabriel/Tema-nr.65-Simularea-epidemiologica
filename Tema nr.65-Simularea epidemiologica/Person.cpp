@@ -47,11 +47,11 @@ void Person::Recovery()
 }
 
 // Aplicare carantina daca este infectat
-void Person::Quarantine()
+void Person::Quarantine(float quarantine_ratio)
 {
     if (State == Status::Infected)
     {
-        if (rand() % 100 < 40) // 40% sansa de a fi in carantinat
+        if (rand() % 100 < quarantine_ratio * 100) // Sansa de a fi in carantinat
         {
             this->setState(Status::Quarantined);
         }

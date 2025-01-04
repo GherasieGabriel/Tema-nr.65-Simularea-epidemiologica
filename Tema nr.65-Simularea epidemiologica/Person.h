@@ -6,31 +6,31 @@
 class Person
 {
 private :
-    int days_Infected; // Numarul de zile pana cand persoana devine Imunea
+	int days_Infected; // Days infected per person
     Status State;
 public:
-    // Constructor fara parametrii
+	// Default constructor
     Person() : State(Healthy) {}
 
-    // Constructor cu parametrii
+	// Constructor with parameters
     Person(int nr_people, int infection_duration);
 
-    // Getter pentru 'State'
+	// Getter for 'State'
     Status GetState() const;
 
-    // Schimbator pentru 'State'
+	// Setter for 'State'
     void setState(Status newState);
-    // Probabilitate de infectie
+	// Infection probability
     void probabilitate_infectare(float infection_rate, int infection_duration);
 
     // Recovery
     void Recovery();
 
-   void Quarantine();// Functie pentru a pune personle Infectede in Quarantine
+	void Quarantine(float quarantine_ratio);// Function to apply quarantine if infected
     
-   int getdays_infected(int days_infected);// Functie pentru a obtine numarul de zile infectate
+	int getdays_infected(int days_infected);// Function to get the number of days infected
 
-   void setDaysInfected(int days_infected);// Functie pentru a seta numarul de zile infectate
+	void setDaysInfected(int days_infected);// Function to set the number of days infected
     // Destructor
     ~Person();
 };

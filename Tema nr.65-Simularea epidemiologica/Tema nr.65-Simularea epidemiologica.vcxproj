@@ -133,19 +133,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="InputValidator.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Pandemic.cpp" />
     <ClCompile Include="PandemicController.cpp" />
     <ClCompile Include="PandemicModel.cpp" />
-    <ClCompile Include="PandemicView.cpp" />
+    <ClCompile Include="PandemicViewGraphical.cpp" />
+    <ClCompile Include="PandemicViewHelper.cpp" />
+    <ClCompile Include="PandemicViewText.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Status.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="InputValidator.h" />
     <ClInclude Include="Pandemic.h" />
+    <ClInclude Include="PandemicView.h" />
+    <ClInclude Include="PandemicController.h" />
+    <ClInclude Include="PandemicViewHelper.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Simulation.h" />
   </ItemGroup>

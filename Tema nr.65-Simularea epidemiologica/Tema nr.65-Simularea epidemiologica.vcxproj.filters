@@ -24,36 +24,51 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Status.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="PandemicView.cpp">
+    <ClCompile Include="PandemicViewGraphical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PandemicController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pandemic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PandemicModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Draw.cpp">
+    <ClCompile Include="PandemicViewText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PandemicViewHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Simulation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Person.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="PandemicController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PandemicView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pandemic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PandemicViewHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
