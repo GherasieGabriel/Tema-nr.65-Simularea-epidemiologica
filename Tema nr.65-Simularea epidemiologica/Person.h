@@ -21,14 +21,14 @@ public:
 	// Setter for 'State'
     void setState(Status newState);
 	// Infection probability
-    void probabilitate_infectare(float infection_rate, int infection_duration);
+    void attemptInfection(float infection_rate, int infection_duration);
 
     // Recovery
     void Recovery();
 
-	void Quarantine(float quarantine_ratio);// Function to apply quarantine if infected
+	void applyQuarantine(float quarantine_ratio);// Function to apply quarantine if infected
     
-	int getdays_infected(int days_infected) const;// Function to get the number of days infected
+	int getDaysinfected(int days_infected) const;// Function to get the number of days infected
 
 	void setDaysInfected(int days_infected);// Function to set the number of days infected
     // Destructor

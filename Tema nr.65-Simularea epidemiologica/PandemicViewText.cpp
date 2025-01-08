@@ -9,29 +9,13 @@ void PandemicView::renderMenu() {
 }
 
 void PandemicView::renderTextSimulation(Simulation& simulation) {
-    int initialInfected = simulation.getPeople() * 0.01; // 1% infected initially
-
-    for (int i = 0; i < initialInfected; i++) {
-        int idx = rand() % simulation.getPeople();
-        simulation.getPerson(idx).setState(Infected);
-        simulation.getPerson(idx).setDaysInfected(simulation.getInfection_duration());
-    }
-
+    simulation.initializeInfected();;
     for (int day = 0; day < simulation.getSimulation_days(); day++) {
         std::cout << "Day " << day + 1 << ":\n";
-        simulation.Pandemic_Simulation();
-        simulation.print();
+		simulation.runSimulation();
+        simulation.displaySimulationStatus();
         std::cout << "\n";
-
-        bool hasInfected = false;
-        for (int i = 0; i < simulation.getPeople(); i++) {
-            if (simulation.getPerson(i).GetState() == Infected || simulation.getPerson(i).GetState() == Quarantined) {
-                hasInfected = true;
-                break;
-            }
-        }
-
-        if (!hasInfected) {
+        if (!simulation.hasActiveInfections()) {
             std::cout << "No more infected people. Ending simulation.\n";
             break;
         }

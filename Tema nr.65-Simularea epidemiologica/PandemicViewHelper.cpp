@@ -73,7 +73,7 @@ void PandemicViewHelper::draw(sf::RenderWindow& window, const Simulation& sim) {
 
 void PandemicViewHelper::updateBars(Simulation& sim) {
     int healthyCount = 0, infectedCount = 0, immuneCount = 0, quarantinedCount = 0;
-    sim.count(healthyCount, infectedCount, immuneCount, quarantinedCount);
+    sim.getStateCounts(healthyCount, infectedCount, immuneCount, quarantinedCount);
     float windowWidth = 1280.f; // Window width
     healthyBar.setSize(sf::Vector2f(windowWidth * (healthyCount / (float)sim.getPeople()), this->barHeight));
     infectedBar.setSize(sf::Vector2f(windowWidth * (infectedCount / (float)sim.getPeople()), this->barHeight));
@@ -84,7 +84,6 @@ void PandemicViewHelper::updateBars(Simulation& sim) {
     quarantinedBar.setPosition(healthyBar.getSize().x + infectedBar.getSize().x, 0.f);
     immuneBar.setPosition(healthyBar.getSize().x + infectedBar.getSize().x + quarantinedBar.getSize().x, 0.f);
 }
-
 void PandemicViewHelper::handleEvents(sf::RenderWindow& window, bool& isRunning) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -104,3 +103,4 @@ void PandemicViewHelper::handleEvents(sf::RenderWindow& window, bool& isRunning)
         }
     }
 }
+

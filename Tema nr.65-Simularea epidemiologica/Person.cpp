@@ -20,7 +20,7 @@ void Person::setState(Status newState)
 }
 
 // Probabilitate de infectare
-void Person::probabilitate_infectare(float infection_rate, int infection_duration)
+void Person::attemptInfection(float infection_rate, int infection_duration)
 {
     int probabilitate = rand() % 100;
     if (probabilitate < infection_rate * 100)
@@ -47,7 +47,7 @@ void Person::Recovery()
 }
 
 // Aplicare carantina daca este infectat
-void Person::Quarantine(float quarantine_ratio)
+void Person::applyQuarantine(float quarantine_ratio)
 {
     if (State == Status::Infected)
     {
@@ -58,7 +58,7 @@ void Person::Quarantine(float quarantine_ratio)
     }
 }
 
-int Person::getdays_infected(int days_infected) const
+int Person::getDaysinfected(int days_infected) const
 {
 	return days_infected;
 }

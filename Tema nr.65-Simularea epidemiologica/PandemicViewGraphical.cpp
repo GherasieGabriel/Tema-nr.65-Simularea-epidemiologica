@@ -8,14 +8,8 @@ using namespace std;
 using namespace sf;
 
 void PandemicView::renderGraphicalSimulation(Simulation& sim) { // Render the graphical simulation
-    int initialInfected = sim.getPeople() * 0.01; // 1% infected initially
-
-    for (int i = 0; i < initialInfected; i++) {
-        int idx = rand() % sim.getPeople();
-        sim.getPerson(idx).setState(Infected);
-        sim.getPerson(idx).setDaysInfected(sim.getInfection_duration());
-    }
-
+   
+	sim.initializeInfected(); // Set the initial infected people
     RenderWindow window(VideoMode(1280, 720), "Simulare Epidemiologica", Style::Fullscreen); // Fullscreen window
 
     Texture backgroundTexture;
@@ -81,24 +75,15 @@ void PandemicView::renderGraphicalSimulation(Simulation& sim) { // Render the gr
         window.display();
 
         if (std::chrono::steady_clock::now() - start_time > interval) { // Update simulation every second
-            sim.Pandemic_Simulation();
+			sim.runSimulation();
 			cout << "Day " << days << ":\n";
-            sim.print();
+            sim.displaySimulationStatus();
             start_time = std::chrono::steady_clock::now();
 			days++;
         }
 
-        bool infected_people_remaining = false;
-        for (int person = 0; person < sim.getPeople(); ++person) {
-            if (sim.getPerson(person).GetState() == Infected || sim.getPerson(person).GetState() == Quarantined) {
-                infected_people_remaining = true;
-                break;
-            }
-        }
-
-        if (!infected_people_remaining) {
-            std::cout << "No more infected people. Ending simulation.\n";
-            break;
-        }
+		if (sim.hasActiveInfections() == false) {
+			isRunning = false;
+		}
     }
 }
